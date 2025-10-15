@@ -74,6 +74,15 @@ const Profile = () => {
 		}
 	}
 
+	useEffect(() => {
+  if(userInfo.image){
+    setImage(`${HOST}/${userInfo.image}`);
+  } else {
+    setImage(null);
+  }
+}, [userInfo.image]);
+
+
 	const handlefileInputClick = ()=>{
 		fileInputRef.current.click();
 	}
@@ -137,7 +146,7 @@ const Profile = () => {
 					 <div className='flex flex-col min-w-32 md:min-w-64 gap-5 justify-center items-center'>
 
 					 <div className='w-full'>
-						<Input placeholder='email' disabled value={userInfo.email} className='bg-black text-white border-none p-6 p-6' />
+						<Input placeholder='email' disabled value={userInfo.email} className='bg-black text-white border-none p-6 ' />
 					 </div>
 
 					 <div className='w-full'>
@@ -158,7 +167,7 @@ const Profile = () => {
 
 					 </div>
 				</div>
-				<div className='wfull'>
+				<div className='w-full'>
 					<Button className='w-full bg-purple-700 cursor-pointer transition-all duration-300 h-16' onClick={saveChanges}>Save Changes</Button>
 				</div>
 			</div>
