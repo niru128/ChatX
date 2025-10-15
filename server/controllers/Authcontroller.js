@@ -17,6 +17,7 @@ export const signup = async (req, res, next) => {
 		}
 
 		const user = await User.create({ email, password });
+		const token = createToken(email, user.id);
 
 		res.cookie("jwt", createToken(email, user.id, {
 			maxAge,
@@ -31,7 +32,8 @@ export const signup = async (req, res, next) => {
 				email: user.email,
 
 				profileSetup: false,
-			}
+			},
+			token
 		});
 	} catch (error) {
 		console.log(error);
@@ -55,6 +57,7 @@ export const login = async (req, res, next) => {
 		}
 
 		const isMatch = await compare(password, user.password);
+		const token = createToken(email, user.id);
 		
 
 		if (!isMatch) {
@@ -76,7 +79,8 @@ export const login = async (req, res, next) => {
 				lastName: user.lastName,
 				image: user.image,
 				color: user.color,
-			}
+			},
+			token
 		});
 	} catch (error) {
 		console.log(error);
