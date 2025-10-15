@@ -16,6 +16,8 @@ const app = express();
 const port = process.env.PORT || 5000;
 const databaseURL = process.env.DATABASE_URL;
 
+app.use(cookieParser());
+
 const allowedOrigins = [
   "https://chat-x-mauve.vercel.app",
   "https://chat-x-git-main-niranjan-c-bs-projects.vercel.app"
