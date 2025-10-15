@@ -16,11 +16,23 @@ const app = express();
 const port = process.env.PORT || 5000;
 const databaseURL = process.env.DATABASE_URL;
 
+const allowedOrigins = [
+  "https://chat-x-mauve.vercel.app",
+  "https://chat-x-git-main-niranjan-c-bs-projects.vercel.app"
+];
+
 app.use(cors({
-    origin: process.env.ORIGIN,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    credentials: true
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error("CORS not allowed"))
+    }
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  credentials: true
 }));
+
 
 app.use("/uploads/profiles", express.static("uploads/profiles"));
 app.use("/uploads/files", express.static("uploads/files"));
