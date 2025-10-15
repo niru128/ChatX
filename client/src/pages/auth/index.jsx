@@ -48,32 +48,37 @@ const Auth = () => {
     }
 
     const handleLogin = async () => {
-        if(validateLogin()){
-            try{
+  if (validateLogin()) {
+    try {
+      console.log("Login Payload", { email, password });
+      const response = await apiClients.post(LOGIN_ROUTE, { email, password });
 
-                console.log("Login Payload", {email, password});
-                const response = await apiClients.post(LOGIN_ROUTE, {email, password},{withCredentials:true});
-                
-                if(response.data.user.id){ 
-                    setUserInfo(response.data.user)
-                    console.log("Navigating")
-    
-                    if(response.data.user.profileSetup){
-                        navigate('/chat');
-                    }else{
-                        navigate("/profile")
-                    }
-                }
-    
-                console.log({response})
+      console.log("token : ", response.data.token);
 
-            }catch(error){
-                console.log({error});
-                toast.error("An error occured");
-            }
+      // ✅ Store JWT token
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
+
+      if (response.data.user.id) {
+        setUserInfo(response.data.user);
+        console.log("Navigating");
+
+        if (response.data.user.profileSetup) {
+          navigate("/chat");
+        } else {
+          navigate("/profile");
         }
+      }
 
+      console.log({ response });
+    } catch (error) {
+      console.log({ error });
+      toast.error("An error occurred");
     }
+  }
+};
+
 
     const handleSignUp = async () => {
         if(validateSignUP()){

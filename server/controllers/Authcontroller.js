@@ -77,6 +77,7 @@ export const login = async (req, res, next) => {
 				image: user.image,
 				color: user.color,
 			}
+			token,
 		});
 	} catch (error) {
 		console.log(error);
