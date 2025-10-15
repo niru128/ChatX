@@ -23,17 +23,30 @@ const allowedOrigins = [
   "https://chat-x-git-main-niranjan-c-bs-projects.vercel.app"
 ];
 
-app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(new Error("CORS not allowed"))
-    }
-  },
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  credentials: true
-}));
+const allowedOrigins = [
+  "https://chat-x-mauve.vercel.app",
+  "https://chat-x-git-main-niranjan-c-bs-projects.vercel.app",
+  "http://localhost:5173", // for local testing
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, Postman, or Render health checks)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      console.warn(`⚠️  CORS blocked for origin: ${origin}`);
+      return callback(null, false); // don't throw an error
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  })
+);
+
 
 
 app.use("/uploads/profiles", express.static("uploads/profiles"));
