@@ -17,7 +17,7 @@ const port = process.env.PORT || 3000;
 const databaseURL = process.env.DATABASE_URL;
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://chat-x-mauve.vercel.app',
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true
 }))
