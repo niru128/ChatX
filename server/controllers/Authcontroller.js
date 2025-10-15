@@ -20,6 +20,7 @@ export const signup = async (req, res, next) => {
 
 		res.cookie("jwt", createToken(email, user.id, {
 			maxAge,
+			httpOnly: true,
 			secure: true,
 			sameSite: "None",
 		}))
